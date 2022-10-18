@@ -6,6 +6,6 @@ export declare class AuthController {
     private readonly rmqService;
     constructor(rmqService: RMQService);
     register(dto: AuthRegister.Request): Promise<AuthRegister.Response>;
-    confirm(dto: AuthConfirm.Request): Promise<AuthConfirm.Response>;
+    confirm(code: string): Promise<AuthConfirm.Response>;
     login(dto: AuthLogin.Request): Promise<AuthLogin.Response>;
 }

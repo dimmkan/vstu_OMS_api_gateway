@@ -32,9 +32,9 @@ let AuthController = class AuthController {
             }
         }
     }
-    async confirm(dto) {
+    async confirm(code) {
         try {
-            return await this.rmqService.send(contracts_3.AuthConfirm.topic, dto);
+            return await this.rmqService.send(contracts_3.AuthConfirm.topic, { confirm_code: code });
         }
         catch (error) {
             if (error instanceof Error) {
@@ -61,10 +61,10 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], AuthController.prototype, "register", null);
 __decorate([
-    (0, common_1.Post)('register/confirm'),
-    __param(0, (0, common_1.Body)()),
+    (0, common_1.Get)('register/confirm/:code'),
+    __param(0, (0, common_1.Param)('code')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [contracts_3.AuthConfirm.Request]),
+    __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", Promise)
 ], AuthController.prototype, "confirm", null);
 __decorate([

@@ -4,7 +4,10 @@ import {
   Post,
   UnauthorizedException,
   InternalServerErrorException,
+  Param,
+  Get,
 } from '@nestjs/common';
+import { get } from 'http';
 import { RMQService } from 'nestjs-rmq';
 import { AuthLogin } from '../../contracts';
 import { AuthRegister } from '../../contracts';
@@ -28,13 +31,13 @@ export class AuthController {
     }
   }
 
-  @Post('register/confirm')
-  async confirm(@Body() dto: AuthConfirm.Request) {
+  @Get('register/confirm/:code')
+  async confirm(@Param('code') code: string) {
     try {
       return await this.rmqService.send<
         AuthConfirm.Request,
         AuthConfirm.Response
-      >(AuthConfirm.topic, dto);
+      >(AuthConfirm.topic, { confirm_code: code });
     } catch (error) {
       if (error instanceof Error) {
         throw new InternalServerErrorException(error.message);
