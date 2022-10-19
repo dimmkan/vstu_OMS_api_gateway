@@ -27,6 +27,11 @@ let AuthController = class AuthController {
             return await this.rmqService.send(contracts_2.AuthRegister.topic, dto);
         }
         catch (error) {
+            if (error instanceof nestjs_rmq_1.RMQError) {
+                if (error.code && error.code === 400) {
+                    throw new common_1.BadRequestException(error.message);
+                }
+            }
             if (error instanceof Error) {
                 throw new common_1.InternalServerErrorException(error.message);
             }
@@ -37,6 +42,11 @@ let AuthController = class AuthController {
             return await this.rmqService.send(contracts_3.AuthConfirm.topic, { confirm_code: code });
         }
         catch (error) {
+            if (error instanceof nestjs_rmq_1.RMQError) {
+                if (error.code && error.code === 400) {
+                    throw new common_1.BadRequestException(error.message);
+                }
+            }
             if (error instanceof Error) {
                 throw new common_1.InternalServerErrorException(error.message);
             }

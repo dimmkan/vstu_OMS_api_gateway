@@ -6,9 +6,9 @@ import {
   InternalServerErrorException,
   Param,
   Get,
+  BadRequestException,
 } from '@nestjs/common';
-import { get } from 'http';
-import { RMQService } from 'nestjs-rmq';
+import { RMQError, RMQService } from 'nestjs-rmq';
 import { AuthLogin } from '../../contracts';
 import { AuthRegister } from '../../contracts';
 import { AuthConfirm } from '../../contracts';
@@ -25,6 +25,12 @@ export class AuthController {
         AuthRegister.Response
       >(AuthRegister.topic, dto);
     } catch (error) {
+      if (error instanceof RMQError) {
+        if (error.code && error.code === 400) {
+          throw new BadRequestException(error.message);
+        }
+      }
+
       if (error instanceof Error) {
         throw new InternalServerErrorException(error.message);
       }
@@ -39,6 +45,12 @@ export class AuthController {
         AuthConfirm.Response
       >(AuthConfirm.topic, { confirm_code: code });
     } catch (error) {
+      if (error instanceof RMQError) {
+        if (error.code && error.code === 400) {
+          throw new BadRequestException(error.message);
+        }
+      }
+
       if (error instanceof Error) {
         throw new InternalServerErrorException(error.message);
       }
