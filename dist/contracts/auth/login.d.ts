@@ -3,6 +3,8 @@ export declare namespace AuthLogin {
     class Request {
         email: string;
         password: string;
+        ip: string;
+        agent: string;
     }
     class Response {
         access_token: string;

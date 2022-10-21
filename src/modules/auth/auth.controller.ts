@@ -7,8 +7,10 @@ import {
   Param,
   Get,
   BadRequestException,
+  Request,
 } from '@nestjs/common';
 import { RMQError, RMQService } from 'nestjs-rmq';
+import { ILoginUser } from 'src/interfaces/loginUser.interface';
 import { AuthLogin } from '../../contracts';
 import { AuthRegister } from '../../contracts';
 import { AuthConfirm } from '../../contracts';
@@ -58,11 +60,17 @@ export class AuthController {
   }
 
   @Post('login')
-  async login(@Body() dto: AuthLogin.Request) {
+  async login(@Body() dto: ILoginUser, @Request() req) {
+    const request = {
+      ...dto,
+      ip: req.headers['host'],
+      agent: req.headers['user-agent'],
+    };
+
     try {
       return await this.rmqService.send<AuthLogin.Request, AuthLogin.Response>(
         AuthLogin.topic,
-        dto,
+        request,
       );
     } catch (error) {
       if (error instanceof Error) {

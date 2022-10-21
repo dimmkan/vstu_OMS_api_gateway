@@ -7,6 +7,9 @@ const getJWTConfig = () => ({
     inject: [config_1.ConfigService],
     useFactory: () => ({
         secret: process.env.JWT_SECRET,
+        verifyOptions: {
+            algorithms: ['HS256', 'HS512'],
+        },
     }),
 });
 exports.getJWTConfig = getJWTConfig;

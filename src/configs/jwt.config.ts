@@ -6,5 +6,8 @@ export const getJWTConfig = (): JwtModuleAsyncOptions => ({
   inject: [ConfigService],
   useFactory: () => ({
     secret: process.env.JWT_SECRET,
+    verifyOptions: {
+      algorithms: ['HS256', 'HS512'],
+    },
   }),
 });

@@ -52,9 +52,10 @@ let AuthController = class AuthController {
             }
         }
     }
-    async login(dto) {
+    async login(dto, req) {
+        const request = Object.assign(Object.assign({}, dto), { ip: req.headers['host'], agent: req.headers['user-agent'] });
         try {
-            return await this.rmqService.send(contracts_1.AuthLogin.topic, dto);
+            return await this.rmqService.send(contracts_1.AuthLogin.topic, request);
         }
         catch (error) {
             if (error instanceof Error) {
@@ -80,8 +81,9 @@ __decorate([
 __decorate([
     (0, common_1.Post)('login'),
     __param(0, (0, common_1.Body)()),
+    __param(1, (0, common_1.Request)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [contracts_1.AuthLogin.Request]),
+    __metadata("design:paramtypes", [Object, Object]),
     __metadata("design:returntype", Promise)
 ], AuthController.prototype, "login", null);
 AuthController = __decorate([

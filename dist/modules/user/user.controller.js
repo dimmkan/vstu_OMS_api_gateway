@@ -21,17 +21,17 @@ let UserController = class UserController {
     constructor(rmqService) {
         this.rmqService = rmqService;
     }
-    async info(userId) {
-        return userId;
+    info({ id }) {
+        return id;
     }
 };
 __decorate([
     (0, common_1.UseGuards)(jwt_guard_1.JWTAuthGuard),
-    (0, common_1.Post)('info'),
-    __param(0, (0, user_decorator_1.UserId)()),
+    (0, common_1.Get)('info'),
+    __param(0, (0, user_decorator_1.User)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Number]),
-    __metadata("design:returntype", Promise)
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", void 0)
 ], UserController.prototype, "info", null);
 UserController = __decorate([
     (0, common_1.Controller)('user'),

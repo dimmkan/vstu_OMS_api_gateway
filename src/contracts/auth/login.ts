@@ -4,6 +4,8 @@ export namespace AuthLogin {
   export class Request {
     email: string;
     password: string;
+    ip: string;
+    agent: string;
   }
 
   export class Response {

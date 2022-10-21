@@ -13,16 +13,16 @@ exports.JwtStrategy = void 0;
 const common_1 = require("@nestjs/common");
 const passport_1 = require("@nestjs/passport");
 const passport_jwt_1 = require("passport-jwt");
-let JwtStrategy = class JwtStrategy extends (0, passport_1.PassportStrategy)(passport_jwt_1.Strategy) {
+let JwtStrategy = class JwtStrategy extends (0, passport_1.PassportStrategy)(passport_jwt_1.Strategy, 'jwt') {
     constructor() {
         super({
-            jwtFromRequest: passport_jwt_1.ExtractJwt.fromAuthHeaderAsBearerToken,
+            jwtFromRequest: passport_jwt_1.ExtractJwt.fromAuthHeaderWithScheme('bearer'),
             ignoreExpiration: true,
             secretOrKey: process.env.JWT_SECRET,
         });
     }
-    async validate({ id }) {
-        return id;
+    async validate(payload) {
+        return payload;
     }
 };
 JwtStrategy = __decorate([
