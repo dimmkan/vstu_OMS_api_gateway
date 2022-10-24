@@ -1,6 +1,7 @@
 import { RMQService } from 'nestjs-rmq';
 import { ILoginUser } from 'src/interfaces/loginUser.interface';
-import { AuthLogin } from '../../contracts';
+import { IRefreshToken } from 'src/interfaces/refreshToken.interface';
+import { AuthLogin, AuthLogout, AuthRefresh } from '../../contracts';
 import { AuthRegister } from '../../contracts';
 import { AuthConfirm } from '../../contracts';
 export declare class AuthController {
@@ -9,4 +10,6 @@ export declare class AuthController {
     register(dto: AuthRegister.Request): Promise<AuthRegister.Response>;
     confirm(code: string): Promise<AuthConfirm.Response>;
     login(dto: ILoginUser, req: any): Promise<AuthLogin.Response>;
+    refresh(dto: IRefreshToken, req: any): Promise<AuthRefresh.Response>;
+    logout(dto: AuthLogout.Request): Promise<AuthLogout.Response>;
 }

@@ -15,6 +15,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.AuthController = void 0;
 const common_1 = require("@nestjs/common");
 const nestjs_rmq_1 = require("nestjs-rmq");
+const jwt_guard_1 = require("../../guards/jwt.guard");
+const user_decorator_1 = require("../../guards/user.decorator");
 const contracts_1 = require("../../contracts");
 const contracts_2 = require("../../contracts");
 const contracts_3 = require("../../contracts");
@@ -63,6 +65,27 @@ let AuthController = class AuthController {
             }
         }
     }
+    async refresh(dto, req) {
+        const request = Object.assign(Object.assign({}, dto), { ip: req.headers['host'], agent: req.headers['user-agent'] });
+        try {
+            return await this.rmqService.send(contracts_1.AuthRefresh.topic, request);
+        }
+        catch (error) {
+            if (error instanceof Error) {
+                throw new common_1.InternalServerErrorException(error.message);
+            }
+        }
+    }
+    async logout(dto) {
+        try {
+            return await this.rmqService.send(contracts_1.AuthLogout.topic, dto);
+        }
+        catch (error) {
+            if (error instanceof Error) {
+                throw new common_1.InternalServerErrorException(error.message);
+            }
+        }
+    }
 };
 __decorate([
     (0, common_1.Post)('register'),
@@ -86,6 +109,23 @@ __decorate([
     __metadata("design:paramtypes", [Object, Object]),
     __metadata("design:returntype", Promise)
 ], AuthController.prototype, "login", null);
+__decorate([
+    (0, common_1.UseGuards)(jwt_guard_1.JWTAuthGuard),
+    (0, common_1.Post)('refresh'),
+    __param(0, (0, user_decorator_1.User)()),
+    __param(1, (0, common_1.Request)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, Object]),
+    __metadata("design:returntype", Promise)
+], AuthController.prototype, "refresh", null);
+__decorate([
+    (0, common_1.UseGuards)(jwt_guard_1.JWTAuthGuard),
+    (0, common_1.Post)('logout'),
+    __param(0, (0, user_decorator_1.User)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [contracts_1.AuthLogout.Request]),
+    __metadata("design:returntype", Promise)
+], AuthController.prototype, "logout", null);
 AuthController = __decorate([
     (0, common_1.Controller)('auth'),
     __metadata("design:paramtypes", [nestjs_rmq_1.RMQService])

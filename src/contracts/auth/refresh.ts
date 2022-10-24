@@ -1,9 +1,9 @@
-export namespace AuthLogin {
-  export const topic = 'auth.login.command';
+export namespace AuthRefresh {
+  export const topic = 'auth.refresh.command';
 
   export class Request {
-    email: string;
-    password: string;
+    id: number;
+    key: string;
     ip: string;
     agent: string;
   }
