@@ -78,4 +78,7 @@ export class AuthController {
       }
     }
   }
+
+  @Post('refresh')
+  async refresh() {}
 }
