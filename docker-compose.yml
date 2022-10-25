@@ -1,6 +1,6 @@
 version: '3'
 services:
-  api:
+  api_gateway:
     image: vstu_oms_api_gateway:latest
     container_name: vstu_oms_api_gateway
     restart: always
