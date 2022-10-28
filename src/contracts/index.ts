@@ -3,3 +3,7 @@ export * from './auth/register';
 export * from './auth/confirm';
 export * from './auth/refresh';
 export * from './auth/logout';
+export * from './user/getUserInfo';
+export * from './user/getUserAvatar';
+export * from './user/updateUserInfo';
+export * from './user/setUserAvatar';
