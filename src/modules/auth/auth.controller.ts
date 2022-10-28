@@ -10,6 +10,7 @@ import {
   Request,
   UseGuards,
 } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
 import { RMQError, RMQService } from 'nestjs-rmq';
 import { JWTAuthGuard } from 'src/guards/jwt.guard';
 import { User } from 'src/guards/user.decorator';
@@ -19,6 +20,7 @@ import { AuthLogin, AuthLogout, AuthRefresh } from '../../contracts';
 import { AuthRegister } from '../../contracts';
 import { AuthConfirm } from '../../contracts';
 
+@ApiTags('auth')
 @Controller('auth')
 export class AuthController {
   constructor(private readonly rmqService: RMQService) {}

@@ -14,6 +14,7 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AuthController = void 0;
 const common_1 = require("@nestjs/common");
+const swagger_1 = require("@nestjs/swagger");
 const nestjs_rmq_1 = require("nestjs-rmq");
 const jwt_guard_1 = require("../../guards/jwt.guard");
 const user_decorator_1 = require("../../guards/user.decorator");
@@ -127,6 +128,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], AuthController.prototype, "logout", null);
 AuthController = __decorate([
+    (0, swagger_1.ApiTags)('auth'),
     (0, common_1.Controller)('auth'),
     __metadata("design:paramtypes", [nestjs_rmq_1.RMQService])
 ], AuthController);

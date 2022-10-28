@@ -19,4 +19,8 @@ __exportStar(require("./auth/register"), exports);
 __exportStar(require("./auth/confirm"), exports);
 __exportStar(require("./auth/refresh"), exports);
 __exportStar(require("./auth/logout"), exports);
+__exportStar(require("./user/getUserInfo"), exports);
+__exportStar(require("./user/getUserAvatar"), exports);
+__exportStar(require("./user/updateUserInfo"), exports);
+__exportStar(require("./user/setUserAvatar"), exports);
 //# sourceMappingURL=index.js.map

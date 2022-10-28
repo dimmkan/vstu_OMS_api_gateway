@@ -8,12 +8,14 @@ import {
   Put,
   UseGuards,
 } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
 import { RMQError, RMQService } from 'nestjs-rmq';
 import { UserGetInfo, UserUpdateInfo } from 'src/contracts';
 import { IUpdateUserDto } from 'src/contracts/user/dto/updateUser.dto';
 import { JWTAuthGuard } from 'src/guards/jwt.guard';
 import { User } from 'src/guards/user.decorator';
 
+@ApiTags('user')
 @Controller('user')
 export class UserController {
   constructor(private readonly rmqService: RMQService) {}
