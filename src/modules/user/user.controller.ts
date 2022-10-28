@@ -1,5 +1,6 @@
 import {
   BadRequestException,
+  Body,
   Controller,
   Get,
   InternalServerErrorException,
@@ -8,7 +9,8 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { RMQError, RMQService } from 'nestjs-rmq';
-import { UserGetInfo } from 'src/contracts';
+import { UserGetInfo, UserUpdateInfo } from 'src/contracts';
+import { IUpdateUserDto } from 'src/contracts/user/dto/updateUser.dto';
 import { JWTAuthGuard } from 'src/guards/jwt.guard';
 import { User } from 'src/guards/user.decorator';
 
@@ -39,8 +41,26 @@ export class UserController {
 
   @UseGuards(JWTAuthGuard)
   @Put()
-  updatUserInfo(@User() { id }) {
-    return id;
+  async updatUserInfo(
+    @User() { id },
+    @Body() dto: IUpdateUserDto,
+  ): Promise<UserUpdateInfo.Response> {
+    try {
+      return await this.rmqService.send<
+        UserUpdateInfo.Request,
+        UserUpdateInfo.Response
+      >(UserUpdateInfo.topic, { id, user_profile: dto });
+    } catch (error) {
+      if (error instanceof RMQError) {
+        if (error.code && error.code === 400) {
+          throw new BadRequestException(error.message);
+        }
+      }
+
+      if (error instanceof Error) {
+        throw new InternalServerErrorException(error.message);
+      }
+    }
   }
 
   @UseGuards(JWTAuthGuard)

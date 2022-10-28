@@ -3,9 +3,15 @@ export namespace UserUpdateInfo {
 
   export class Request {
     id: number;
+    user_profile: {
+      full_name: string;
+      sex: string;
+      birthday: string;
+      user_building: number; // User building ID
+    };
   }
 
   export class Response {
-    avatar_id: string;
+    success: boolean;
   }
 }
