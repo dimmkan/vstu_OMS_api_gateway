@@ -3,6 +3,8 @@ export namespace UserSetAvatar {
 
   export class Request {
     id: number;
+    avatar: string;
+    filename: string;
   }
 
   export class Response {

@@ -14,6 +14,7 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserController = void 0;
 const common_1 = require("@nestjs/common");
+const platform_express_1 = require("@nestjs/platform-express");
 const swagger_1 = require("@nestjs/swagger");
 const nestjs_rmq_1 = require("nestjs-rmq");
 const contracts_1 = require("../../contracts");
@@ -53,11 +54,54 @@ let UserController = class UserController {
             }
         }
     }
-    getUserAvatar({ id }) {
-        return id;
+    async getUserAvatar({ id }) {
+        try {
+            return await this.rmqService.send(contracts_1.UserGetAvatar.topic, { id });
+        }
+        catch (error) {
+            if (error instanceof nestjs_rmq_1.RMQError) {
+                if (error.code && error.code === 400) {
+                    throw new common_1.BadRequestException(error.message);
+                }
+            }
+            if (error instanceof Error) {
+                throw new common_1.InternalServerErrorException(error.message);
+            }
+        }
     }
-    setUserAvatar({ id }) {
-        return id;
+    async setUserAvatar({ id }, avatar) {
+        try {
+            return await this.rmqService.send(contracts_1.UserSetAvatar.topic, {
+                id,
+                avatar: avatar.buffer.toString('base64'),
+                filename: avatar.originalname,
+            });
+        }
+        catch (error) {
+            if (error instanceof nestjs_rmq_1.RMQError) {
+                if (error.code && error.code === 400) {
+                    throw new common_1.BadRequestException(error.message);
+                }
+            }
+            if (error instanceof Error) {
+                throw new common_1.InternalServerErrorException(error.message);
+            }
+        }
+    }
+    async deleteUserAvatar({ id }) {
+        try {
+            return await this.rmqService.send(contracts_1.UserDeleteAvatar.topic, { id });
+        }
+        catch (error) {
+            if (error instanceof nestjs_rmq_1.RMQError) {
+                if (error.code && error.code === 400) {
+                    throw new common_1.BadRequestException(error.message);
+                }
+            }
+            if (error instanceof Error) {
+                throw new common_1.InternalServerErrorException(error.message);
+            }
+        }
     }
 };
 __decorate([
@@ -83,16 +127,31 @@ __decorate([
     __param(0, (0, user_decorator_1.User)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
-    __metadata("design:returntype", void 0)
+    __metadata("design:returntype", Promise)
 ], UserController.prototype, "getUserAvatar", null);
 __decorate([
     (0, common_1.UseGuards)(jwt_guard_1.JWTAuthGuard),
     (0, common_1.Post)('avatar'),
+    (0, common_1.UseInterceptors)((0, platform_express_1.FileInterceptor)('avatar')),
+    __param(0, (0, user_decorator_1.User)()),
+    __param(1, (0, common_1.UploadedFile)(new common_1.ParseFilePipe({
+        validators: [
+            new common_1.MaxFileSizeValidator({ maxSize: 5000000 }),
+            new common_1.FileTypeValidator({ fileType: 'jpeg|png' }),
+        ],
+    }))),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, Object]),
+    __metadata("design:returntype", Promise)
+], UserController.prototype, "setUserAvatar", null);
+__decorate([
+    (0, common_1.UseGuards)(jwt_guard_1.JWTAuthGuard),
+    (0, common_1.Delete)('avatar'),
     __param(0, (0, user_decorator_1.User)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
-    __metadata("design:returntype", void 0)
-], UserController.prototype, "setUserAvatar", null);
+    __metadata("design:returntype", Promise)
+], UserController.prototype, "deleteUserAvatar", null);
 UserController = __decorate([
     (0, swagger_1.ApiTags)('user'),
     (0, common_1.Controller)('user'),

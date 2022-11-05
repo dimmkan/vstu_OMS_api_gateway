@@ -1,5 +1,6 @@
+/// <reference types="multer" />
 import { RMQService } from 'nestjs-rmq';
-import { UserGetInfo, UserUpdateInfo } from 'src/contracts';
+import { UserGetAvatar, UserGetInfo, UserUpdateInfo, UserSetAvatar, UserDeleteAvatar } from 'src/contracts';
 import { IUpdateUserDto } from 'src/contracts/user/dto/updateUser.dto';
 export declare class UserController {
     private readonly rmqService;
@@ -12,8 +13,11 @@ export declare class UserController {
     }, dto: IUpdateUserDto): Promise<UserUpdateInfo.Response>;
     getUserAvatar({ id }: {
         id: any;
-    }): any;
+    }): Promise<UserGetAvatar.Response>;
     setUserAvatar({ id }: {
         id: any;
-    }): any;
+    }, avatar: Express.Multer.File): Promise<UserSetAvatar.Response>;
+    deleteUserAvatar({ id }: {
+        id: any;
+    }): Promise<UserDeleteAvatar.Response>;
 }
