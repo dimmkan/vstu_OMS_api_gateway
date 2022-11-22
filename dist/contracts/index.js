@@ -24,4 +24,5 @@ __exportStar(require("./user/getUserAvatar"), exports);
 __exportStar(require("./user/updateUserInfo"), exports);
 __exportStar(require("./user/setUserAvatar"), exports);
 __exportStar(require("./user/deleteUserAvatar"), exports);
+__exportStar(require("./user/validateUserEmail"), exports);
 //# sourceMappingURL=index.js.map

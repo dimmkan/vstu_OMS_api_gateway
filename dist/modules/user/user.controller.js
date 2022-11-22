@@ -103,6 +103,21 @@ let UserController = class UserController {
             }
         }
     }
+    async validateUserEmail(dto) {
+        try {
+            return await this.rmqService.send(contracts_1.ValidateUserEmail.topic, dto);
+        }
+        catch (error) {
+            if (error instanceof nestjs_rmq_1.RMQError) {
+                if (error.code && error.code === 400) {
+                    throw new common_1.BadRequestException(error.message);
+                }
+            }
+            if (error instanceof Error) {
+                throw new common_1.InternalServerErrorException(error.message);
+            }
+        }
+    }
 };
 __decorate([
     (0, common_1.UseGuards)(jwt_guard_1.JWTAuthGuard),
@@ -152,6 +167,13 @@ __decorate([
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
 ], UserController.prototype, "deleteUserAvatar", null);
+__decorate([
+    (0, common_1.Post)('validate-email'),
+    __param(0, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], UserController.prototype, "validateUserEmail", null);
 UserController = __decorate([
     (0, swagger_1.ApiTags)('user'),
     (0, common_1.Controller)('user'),

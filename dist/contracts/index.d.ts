@@ -8,3 +8,4 @@ export * from './user/getUserAvatar';
 export * from './user/updateUserInfo';
 export * from './user/setUserAvatar';
 export * from './user/deleteUserAvatar';
+export * from './user/validateUserEmail';

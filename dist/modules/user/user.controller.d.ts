@@ -1,7 +1,8 @@
 /// <reference types="multer" />
 import { RMQService } from 'nestjs-rmq';
-import { UserGetAvatar, UserGetInfo, UserUpdateInfo, UserSetAvatar, UserDeleteAvatar } from 'src/contracts';
+import { UserGetAvatar, UserGetInfo, UserUpdateInfo, UserSetAvatar, UserDeleteAvatar, ValidateUserEmail } from 'src/contracts';
 import { IUpdateUserDto } from 'src/contracts/user/dto/updateUser.dto';
+import { IValidateUserEmailDto } from 'src/contracts/user/dto/validateUserEmail.dto';
 export declare class UserController {
     private readonly rmqService;
     constructor(rmqService: RMQService);
@@ -20,4 +21,5 @@ export declare class UserController {
     deleteUserAvatar({ id }: {
         id: any;
     }): Promise<UserDeleteAvatar.Response>;
+    validateUserEmail(dto: IValidateUserEmailDto): Promise<ValidateUserEmail.Response>;
 }
