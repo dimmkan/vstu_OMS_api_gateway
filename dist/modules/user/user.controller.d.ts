@@ -1,6 +1,7 @@
 /// <reference types="multer" />
 import { RMQService } from 'nestjs-rmq';
-import { UserGetAvatar, UserGetInfo, UserUpdateInfo, UserSetAvatar, UserDeleteAvatar, ValidateUserEmail } from 'src/contracts';
+import { UserGetAvatar, UserGetInfo, UserUpdateInfo, UserSetAvatar, UserDeleteAvatar, ValidateUserEmail, GenerateRefreshPasswordLink, ConfirmRefreshPasswordLink } from 'src/contracts';
+import { IGenerateRefreshPasswordLinkDto } from 'src/contracts/user/dto/generateRefreshPasswordLink.dto';
 import { IUpdateUserDto } from 'src/contracts/user/dto/updateUser.dto';
 import { IValidateUserEmailDto } from 'src/contracts/user/dto/validateUserEmail.dto';
 export declare class UserController {
@@ -22,4 +23,6 @@ export declare class UserController {
         id: any;
     }): Promise<UserDeleteAvatar.Response>;
     validateUserEmail(dto: IValidateUserEmailDto): Promise<ValidateUserEmail.Response>;
+    generateRefreshPasswordLink(dto: IGenerateRefreshPasswordLinkDto): Promise<GenerateRefreshPasswordLink.Response>;
+    confirm(code: string): Promise<ConfirmRefreshPasswordLink.Response>;
 }

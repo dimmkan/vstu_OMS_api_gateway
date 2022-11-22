@@ -10,6 +10,7 @@ import {
   ParseFilePipe,
   Post,
   Put,
+  Query,
   UploadedFile,
   UseGuards,
   UseInterceptors,
@@ -24,7 +25,10 @@ import {
   UserSetAvatar,
   UserDeleteAvatar,
   ValidateUserEmail,
+  GenerateRefreshPasswordLink,
+  ConfirmRefreshPasswordLink,
 } from 'src/contracts';
+import { IGenerateRefreshPasswordLinkDto } from 'src/contracts/user/dto/generateRefreshPasswordLink.dto';
 import { IUpdateUserDto } from 'src/contracts/user/dto/updateUser.dto';
 import { IValidateUserEmailDto } from 'src/contracts/user/dto/validateUserEmail.dto';
 import { JWTAuthGuard } from 'src/guards/jwt.guard';
@@ -168,6 +172,48 @@ export class UserController {
         ValidateUserEmail.Request,
         ValidateUserEmail.Response
       >(ValidateUserEmail.topic, dto);
+    } catch (error) {
+      if (error instanceof RMQError) {
+        if (error.code && error.code === 400) {
+          throw new BadRequestException(error.message);
+        }
+      }
+
+      if (error instanceof Error) {
+        throw new InternalServerErrorException(error.message);
+      }
+    }
+  }
+
+  @Post('generate-refresh-link')
+  async generateRefreshPasswordLink(
+    @Body() dto: IGenerateRefreshPasswordLinkDto,
+  ): Promise<GenerateRefreshPasswordLink.Response> {
+    try {
+      return await this.rmqService.send<
+        GenerateRefreshPasswordLink.Request,
+        GenerateRefreshPasswordLink.Response
+      >(GenerateRefreshPasswordLink.topic, dto);
+    } catch (error) {
+      if (error instanceof RMQError) {
+        if (error.code && error.code === 400) {
+          throw new BadRequestException(error.message);
+        }
+      }
+
+      if (error instanceof Error) {
+        throw new InternalServerErrorException(error.message);
+      }
+    }
+  }
+
+  @Get('confirm-refresh-link')
+  async confirm(@Query('hash') code: string) {
+    try {
+      return await this.rmqService.send<
+        ConfirmRefreshPasswordLink.Request,
+        ConfirmRefreshPasswordLink.Response
+      >(ConfirmRefreshPasswordLink.topic, { hash: code });
     } catch (error) {
       if (error instanceof RMQError) {
         if (error.code && error.code === 400) {

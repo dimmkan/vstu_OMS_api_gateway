@@ -118,6 +118,36 @@ let UserController = class UserController {
             }
         }
     }
+    async generateRefreshPasswordLink(dto) {
+        try {
+            return await this.rmqService.send(contracts_1.GenerateRefreshPasswordLink.topic, dto);
+        }
+        catch (error) {
+            if (error instanceof nestjs_rmq_1.RMQError) {
+                if (error.code && error.code === 400) {
+                    throw new common_1.BadRequestException(error.message);
+                }
+            }
+            if (error instanceof Error) {
+                throw new common_1.InternalServerErrorException(error.message);
+            }
+        }
+    }
+    async confirm(code) {
+        try {
+            return await this.rmqService.send(contracts_1.ConfirmRefreshPasswordLink.topic, { hash: code });
+        }
+        catch (error) {
+            if (error instanceof nestjs_rmq_1.RMQError) {
+                if (error.code && error.code === 400) {
+                    throw new common_1.BadRequestException(error.message);
+                }
+            }
+            if (error instanceof Error) {
+                throw new common_1.InternalServerErrorException(error.message);
+            }
+        }
+    }
 };
 __decorate([
     (0, common_1.UseGuards)(jwt_guard_1.JWTAuthGuard),
@@ -174,6 +204,20 @@ __decorate([
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
 ], UserController.prototype, "validateUserEmail", null);
+__decorate([
+    (0, common_1.Post)('generate-refresh-link'),
+    __param(0, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], UserController.prototype, "generateRefreshPasswordLink", null);
+__decorate([
+    (0, common_1.Get)('confirm-refresh-link'),
+    __param(0, (0, common_1.Query)('hash')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", Promise)
+], UserController.prototype, "confirm", null);
 UserController = __decorate([
     (0, swagger_1.ApiTags)('user'),
     (0, common_1.Controller)('user'),
