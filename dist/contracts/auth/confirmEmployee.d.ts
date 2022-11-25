@@ -1,5 +1,5 @@
-export declare namespace AuthConfirm {
-    const topic = "auth.confirm.command";
+export declare namespace AuthConfirmEmployee {
+    const topic = "auth.confirmemployee.command";
     class Request {
         confirm_code: string;
     }

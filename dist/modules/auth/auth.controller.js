@@ -19,15 +19,13 @@ const nestjs_rmq_1 = require("nestjs-rmq");
 const jwt_guard_1 = require("../../guards/jwt.guard");
 const user_decorator_1 = require("../../guards/user.decorator");
 const contracts_1 = require("../../contracts");
-const contracts_2 = require("../../contracts");
-const contracts_3 = require("../../contracts");
 let AuthController = class AuthController {
     constructor(rmqService) {
         this.rmqService = rmqService;
     }
     async register(dto) {
         try {
-            return await this.rmqService.send(contracts_2.AuthRegister.topic, dto);
+            return await this.rmqService.send(contracts_1.AuthRegister.topic, dto);
         }
         catch (error) {
             if (error instanceof nestjs_rmq_1.RMQError) {
@@ -42,7 +40,7 @@ let AuthController = class AuthController {
     }
     async confirm(code) {
         try {
-            return await this.rmqService.send(contracts_3.AuthConfirm.topic, { confirm_code: code });
+            return await this.rmqService.send(contracts_1.AuthConfirm.topic, { confirm_code: code });
         }
         catch (error) {
             if (error instanceof nestjs_rmq_1.RMQError) {
@@ -87,12 +85,74 @@ let AuthController = class AuthController {
             }
         }
     }
+    async registerEmployee(dto) {
+        try {
+            return await this.rmqService.send(contracts_1.AuthRegisterEmployee.topic, dto);
+        }
+        catch (error) {
+            if (error instanceof nestjs_rmq_1.RMQError) {
+                if (error.code && error.code === 400) {
+                    throw new common_1.BadRequestException(error.message);
+                }
+            }
+            if (error instanceof Error) {
+                throw new common_1.InternalServerErrorException(error.message);
+            }
+        }
+    }
+    async confirmEmployee(code) {
+        try {
+            return await this.rmqService.send(contracts_1.AuthConfirmEmployee.topic, { confirm_code: code });
+        }
+        catch (error) {
+            if (error instanceof nestjs_rmq_1.RMQError) {
+                if (error.code && error.code === 400) {
+                    throw new common_1.BadRequestException(error.message);
+                }
+            }
+            if (error instanceof Error) {
+                throw new common_1.InternalServerErrorException(error.message);
+            }
+        }
+    }
+    async loginEmployee(dto, req) {
+        const request = Object.assign(Object.assign({}, dto), { ip: req.headers['host'], agent: req.headers['user-agent'] });
+        try {
+            return await this.rmqService.send(contracts_1.AuthLoginEmployee.topic, request);
+        }
+        catch (error) {
+            if (error instanceof Error) {
+                throw new common_1.UnauthorizedException(error.message);
+            }
+        }
+    }
+    async refreshEmployee(dto, req) {
+        const request = Object.assign(Object.assign({}, dto), { ip: req.headers['host'], agent: req.headers['user-agent'] });
+        try {
+            return await this.rmqService.send(contracts_1.AuthRefreshEmployee.topic, request);
+        }
+        catch (error) {
+            if (error instanceof Error) {
+                throw new common_1.InternalServerErrorException(error.message);
+            }
+        }
+    }
+    async logoutEmployee(dto) {
+        try {
+            return await this.rmqService.send(contracts_1.AuthLogoutEmployee.topic, dto);
+        }
+        catch (error) {
+            if (error instanceof Error) {
+                throw new common_1.InternalServerErrorException(error.message);
+            }
+        }
+    }
 };
 __decorate([
     (0, common_1.Post)('register'),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [contracts_2.AuthRegister.Request]),
+    __metadata("design:paramtypes", [contracts_1.AuthRegister.Request]),
     __metadata("design:returntype", Promise)
 ], AuthController.prototype, "register", null);
 __decorate([
@@ -127,6 +187,45 @@ __decorate([
     __metadata("design:paramtypes", [contracts_1.AuthLogout.Request]),
     __metadata("design:returntype", Promise)
 ], AuthController.prototype, "logout", null);
+__decorate([
+    (0, common_1.Post)('employee/register'),
+    __param(0, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [contracts_1.AuthRegisterEmployee.Request]),
+    __metadata("design:returntype", Promise)
+], AuthController.prototype, "registerEmployee", null);
+__decorate([
+    (0, common_1.Get)('employee/register/confirm/:code'),
+    __param(0, (0, common_1.Param)('code')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", Promise)
+], AuthController.prototype, "confirmEmployee", null);
+__decorate([
+    (0, common_1.Post)('employee/login'),
+    __param(0, (0, common_1.Body)()),
+    __param(1, (0, common_1.Request)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, Object]),
+    __metadata("design:returntype", Promise)
+], AuthController.prototype, "loginEmployee", null);
+__decorate([
+    (0, common_1.UseGuards)(jwt_guard_1.JWTAuthGuard),
+    (0, common_1.Post)('employee/refresh'),
+    __param(0, (0, user_decorator_1.User)()),
+    __param(1, (0, common_1.Request)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, Object]),
+    __metadata("design:returntype", Promise)
+], AuthController.prototype, "refreshEmployee", null);
+__decorate([
+    (0, common_1.UseGuards)(jwt_guard_1.JWTAuthGuard),
+    (0, common_1.Post)('employee/logout'),
+    __param(0, (0, user_decorator_1.User)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [contracts_1.AuthLogoutEmployee.Request]),
+    __metadata("design:returntype", Promise)
+], AuthController.prototype, "logoutEmployee", null);
 AuthController = __decorate([
     (0, swagger_1.ApiTags)('auth'),
     (0, common_1.Controller)('auth'),
