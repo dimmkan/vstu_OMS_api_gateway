@@ -9,6 +9,7 @@ import { RMQModule } from 'nestjs-rmq';
 import { getRMQConfig } from './configs/rmq.config';
 import { PassportModule } from '@nestjs/passport';
 import { UserModule } from './modules/user/user.module';
+import { EmployeeModule } from './modules/employee/employee.module';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { UserModule } from './modules/user/user.module';
     RMQModule.forRootAsync(getRMQConfig()),
     PassportModule,
     UserModule,
+    EmployeeModule,
   ],
   controllers: [AppController],
   providers: [AppService],
