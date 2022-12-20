@@ -10,6 +10,8 @@ import { getRMQConfig } from './configs/rmq.config';
 import { PassportModule } from '@nestjs/passport';
 import { UserModule } from './modules/user/user.module';
 import { EmployeeModule } from './modules/employee/employee.module';
+import { OrderModule } from './modules/order/order.module';
+import { OrderController } from './modules/order/order.controller';
 
 @Module({
   imports: [
@@ -20,8 +22,9 @@ import { EmployeeModule } from './modules/employee/employee.module';
     PassportModule,
     UserModule,
     EmployeeModule,
+    OrderModule,
   ],
-  controllers: [AppController],
+  controllers: [AppController, OrderController],
   providers: [AppService],
 })
 export class AppModule {}

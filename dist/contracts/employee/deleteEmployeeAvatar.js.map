@@ -1,0 +1,1 @@
+{"version":3,"file":"deleteEmployeeAvatar.js","sourceRoot":"","sources":["../../../src/contracts/employee/deleteEmployeeAvatar.ts"],"names":[],"mappings":";;;AAAA,IAAiB,oBAAoB,CAUpC;AAVD,WAAiB,oBAAoB;IACtB,0BAAK,GAAG,6BAA6B,CAAC;IAEnD,MAAa,OAAO;KAEnB;IAFY,4BAAO,UAEnB,CAAA;IAED,MAAa,QAAQ;KAEpB;IAFY,6BAAQ,WAEpB,CAAA;AACH,CAAC,EAVgB,oBAAoB,GAApB,4BAAoB,KAApB,4BAAoB,QAUpC"}

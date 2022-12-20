@@ -1,0 +1,1 @@
+{"version":3,"file":"setEmployeeAvatar.js","sourceRoot":"","sources":["../../../src/contracts/employee/setEmployeeAvatar.ts"],"names":[],"mappings":";;;AAAA,IAAiB,iBAAiB,CAYjC;AAZD,WAAiB,iBAAiB;IACnB,uBAAK,GAAG,0BAA0B,CAAC;IAEhD,MAAa,OAAO;KAInB;IAJY,yBAAO,UAInB,CAAA;IAED,MAAa,QAAQ;KAEpB;IAFY,0BAAQ,WAEpB,CAAA;AACH,CAAC,EAZgB,iBAAiB,GAAjB,yBAAiB,KAAjB,yBAAiB,QAYjC"}

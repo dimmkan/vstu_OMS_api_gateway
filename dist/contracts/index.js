@@ -32,4 +32,12 @@ __exportStar(require("./user/deleteUserAvatar"), exports);
 __exportStar(require("./user/validateUserEmail"), exports);
 __exportStar(require("./user/generateRefreshPasswordLink"), exports);
 __exportStar(require("./user/confirmRefreshPasswordLink"), exports);
+__exportStar(require("./employee/confirmRefreshPasswordLinkEmployee"), exports);
+__exportStar(require("./employee/deleteEmployeeAvatar"), exports);
+__exportStar(require("./employee/generateRefreshPasswordLinkEmployee"), exports);
+__exportStar(require("./employee/getEmployeeAvatar"), exports);
+__exportStar(require("./employee/getEmployeeInfo"), exports);
+__exportStar(require("./employee/setEmployeeAvatar"), exports);
+__exportStar(require("./employee/updateEmployeeInfo"), exports);
+__exportStar(require("./employee/validateEmployeeEmail"), exports);
 //# sourceMappingURL=index.js.map
