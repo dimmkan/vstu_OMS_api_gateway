@@ -4,6 +4,8 @@ import {
   InternalServerErrorException,
   Post,
   UseGuards,
+  UsePipes,
+  ValidationPipe,
 } from '@nestjs/common';
 import { RMQService } from 'nestjs-rmq';
 import { ChangeOrderStatus, CreateOrder } from 'src/contracts';
@@ -35,6 +37,7 @@ export class OrderController {
 
   @UseGuards(JWTAuthGuard)
   @Post('change-status')
+  @UsePipes(new ValidationPipe())
   async changeOrderStatus(
     @Body() dto: ChangeOrderStatus.Request,
   ): Promise<ChangeOrderStatus.Response> {

@@ -1,4 +1,4 @@
-import { IsNumber, IsIn } from 'class-validator';
+import { IsIn, IsString, IsNotEmpty } from 'class-validator';
 
 const statuses = ['accepted', 'inprogress', 'finished'] as const;
 export type Statuses = typeof statuses[number];
@@ -7,8 +7,9 @@ export namespace ChangeOrderStatus {
   export const topic = 'order.changestatus.command';
 
   export class Request {
-    @IsNumber()
-    order_id: number;
+    @IsString()
+    @IsNotEmpty()
+    order_id: string;
 
     @IsIn(statuses)
     status: Statuses;

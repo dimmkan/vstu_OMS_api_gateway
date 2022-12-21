@@ -55,6 +55,7 @@ __decorate([
 __decorate([
     (0, common_1.UseGuards)(jwt_guard_1.JWTAuthGuard),
     (0, common_1.Post)('change-status'),
+    (0, common_1.UsePipes)(new common_1.ValidationPipe()),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [contracts_1.ChangeOrderStatus.Request]),

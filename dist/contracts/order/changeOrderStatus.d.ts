@@ -3,7 +3,7 @@ export declare type Statuses = typeof statuses[number];
 export declare namespace ChangeOrderStatus {
     const topic = "order.changestatus.command";
     class Request {
-        order_id: number;
+        order_id: string;
         status: Statuses;
     }
     class Response {
