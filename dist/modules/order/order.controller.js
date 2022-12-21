@@ -15,7 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.OrderController = void 0;
 const common_1 = require("@nestjs/common");
 const nestjs_rmq_1 = require("nestjs-rmq");
-const createOrder_1 = require("../../contracts/order/createOrder");
+const contracts_1 = require("../../contracts");
 const jwt_guard_1 = require("../../guards/jwt.guard");
 const user_decorator_1 = require("../../guards/user.decorator");
 let OrderController = class OrderController {
@@ -24,7 +24,17 @@ let OrderController = class OrderController {
     }
     async createOrder(dto, { id }) {
         try {
-            return await this.rmqService.send(createOrder_1.CreateOrder.topic, Object.assign({ user_id: id }, dto));
+            return await this.rmqService.send(contracts_1.CreateOrder.topic, Object.assign({ user_id: id }, dto));
+        }
+        catch (error) {
+            if (error instanceof Error) {
+                throw new common_1.InternalServerErrorException(error.message);
+            }
+        }
+    }
+    async changeOrderStatus(dto) {
+        try {
+            return await this.rmqService.send(contracts_1.ChangeOrderStatus.topic, dto);
         }
         catch (error) {
             if (error instanceof Error) {
@@ -42,6 +52,14 @@ __decorate([
     __metadata("design:paramtypes", [Object, Object]),
     __metadata("design:returntype", Promise)
 ], OrderController.prototype, "createOrder", null);
+__decorate([
+    (0, common_1.UseGuards)(jwt_guard_1.JWTAuthGuard),
+    (0, common_1.Post)('change-status'),
+    __param(0, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [contracts_1.ChangeOrderStatus.Request]),
+    __metadata("design:returntype", Promise)
+], OrderController.prototype, "changeOrderStatus", null);
 OrderController = __decorate([
     (0, common_1.Controller)('order'),
     __metadata("design:paramtypes", [nestjs_rmq_1.RMQService])

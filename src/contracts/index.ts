@@ -24,3 +24,5 @@ export * from './employee/getEmployeeInfo';
 export * from './employee/setEmployeeAvatar';
 export * from './employee/updateEmployeeInfo';
 export * from './employee/validateEmployeeEmail';
+export * from './order/createOrder';
+export * from './order/changeOrderStatus';

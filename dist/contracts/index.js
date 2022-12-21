@@ -40,4 +40,6 @@ __exportStar(require("./employee/getEmployeeInfo"), exports);
 __exportStar(require("./employee/setEmployeeAvatar"), exports);
 __exportStar(require("./employee/updateEmployeeInfo"), exports);
 __exportStar(require("./employee/validateEmployeeEmail"), exports);
+__exportStar(require("./order/createOrder"), exports);
+__exportStar(require("./order/changeOrderStatus"), exports);
 //# sourceMappingURL=index.js.map

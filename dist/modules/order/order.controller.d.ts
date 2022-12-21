@@ -1,5 +1,5 @@
 import { RMQService } from 'nestjs-rmq';
-import { CreateOrder } from 'src/contracts/order/createOrder';
+import { ChangeOrderStatus, CreateOrder } from 'src/contracts';
 import { ICreateOrderDto } from 'src/contracts/order/dto/createOrder.dto';
 export declare class OrderController {
     private readonly rmqService;
@@ -7,4 +7,5 @@ export declare class OrderController {
     createOrder(dto: ICreateOrderDto, { id }: {
         id: any;
     }): Promise<CreateOrder.Response>;
+    changeOrderStatus(dto: ChangeOrderStatus.Request): Promise<ChangeOrderStatus.Response>;
 }
