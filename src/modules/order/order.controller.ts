@@ -8,7 +8,11 @@ import {
   ValidationPipe,
 } from '@nestjs/common';
 import { RMQService } from 'nestjs-rmq';
-import { ChangeOrderStatus, CreateOrder } from 'src/contracts';
+import {
+  ChangeOrderStatus,
+  CreateOrder,
+  ChangeOrderDescription,
+} from 'src/contracts';
 import { ICreateOrderDto } from 'src/contracts/order/dto/createOrder.dto';
 import { JWTAuthGuard } from 'src/guards/jwt.guard';
 import { User } from 'src/guards/user.decorator';
@@ -46,6 +50,24 @@ export class OrderController {
         ChangeOrderStatus.Request,
         ChangeOrderStatus.Response
       >(ChangeOrderStatus.topic, dto);
+    } catch (error) {
+      if (error instanceof Error) {
+        throw new InternalServerErrorException(error.message);
+      }
+    }
+  }
+
+  @UseGuards(JWTAuthGuard)
+  @Post('change-description')
+  @UsePipes(new ValidationPipe())
+  async changeOrderDescription(
+    @Body() dto: ChangeOrderDescription.Request,
+  ): Promise<ChangeOrderDescription.Response> {
+    try {
+      return await this.rmqService.send<
+        ChangeOrderDescription.Request,
+        ChangeOrderDescription.Response
+      >(ChangeOrderDescription.topic, dto);
     } catch (error) {
       if (error instanceof Error) {
         throw new InternalServerErrorException(error.message);

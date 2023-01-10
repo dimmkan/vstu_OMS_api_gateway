@@ -26,3 +26,4 @@ export * from './employee/updateEmployeeInfo';
 export * from './employee/validateEmployeeEmail';
 export * from './order/createOrder';
 export * from './order/changeOrderStatus';
+export * from './order/changeOrderDescription';

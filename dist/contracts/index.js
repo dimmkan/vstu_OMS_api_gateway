@@ -42,4 +42,5 @@ __exportStar(require("./employee/updateEmployeeInfo"), exports);
 __exportStar(require("./employee/validateEmployeeEmail"), exports);
 __exportStar(require("./order/createOrder"), exports);
 __exportStar(require("./order/changeOrderStatus"), exports);
+__exportStar(require("./order/changeOrderDescription"), exports);
 //# sourceMappingURL=index.js.map

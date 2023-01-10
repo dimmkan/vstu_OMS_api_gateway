@@ -42,6 +42,16 @@ let OrderController = class OrderController {
             }
         }
     }
+    async changeOrderDescription(dto) {
+        try {
+            return await this.rmqService.send(contracts_1.ChangeOrderDescription.topic, dto);
+        }
+        catch (error) {
+            if (error instanceof Error) {
+                throw new common_1.InternalServerErrorException(error.message);
+            }
+        }
+    }
 };
 __decorate([
     (0, common_1.UseGuards)(jwt_guard_1.JWTAuthGuard),
@@ -61,6 +71,15 @@ __decorate([
     __metadata("design:paramtypes", [contracts_1.ChangeOrderStatus.Request]),
     __metadata("design:returntype", Promise)
 ], OrderController.prototype, "changeOrderStatus", null);
+__decorate([
+    (0, common_1.UseGuards)(jwt_guard_1.JWTAuthGuard),
+    (0, common_1.Post)('change-description'),
+    (0, common_1.UsePipes)(new common_1.ValidationPipe()),
+    __param(0, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [contracts_1.ChangeOrderDescription.Request]),
+    __metadata("design:returntype", Promise)
+], OrderController.prototype, "changeOrderDescription", null);
 OrderController = __decorate([
     (0, common_1.Controller)('order'),
     __metadata("design:paramtypes", [nestjs_rmq_1.RMQService])
