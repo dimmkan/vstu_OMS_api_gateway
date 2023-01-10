@@ -11,4 +11,4 @@ var GetUserOrders;
     }
     GetUserOrders.Response = Response;
 })(GetUserOrders = exports.GetUserOrders || (exports.GetUserOrders = {}));
-//# sourceMappingURL=GetUserOrders.js.map
+//# sourceMappingURL=getUserOrders.js.map

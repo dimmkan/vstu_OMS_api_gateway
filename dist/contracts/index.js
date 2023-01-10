@@ -44,5 +44,5 @@ __exportStar(require("./order/createOrder"), exports);
 __exportStar(require("./order/changeOrderStatus"), exports);
 __exportStar(require("./order/changeOrderDescription"), exports);
 __exportStar(require("./order/deleteOrder"), exports);
-__exportStar(require("./order/GetUserOrders"), exports);
+__exportStar(require("./order/getUserOrders"), exports);
 //# sourceMappingURL=index.js.map
