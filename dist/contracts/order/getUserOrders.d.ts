@@ -14,6 +14,6 @@ export declare namespace GetUserOrders {
         user_id: number;
     }
     class Response {
-        success: OrdersList[];
+        data: OrdersList[];
     }
 }

@@ -17,6 +17,6 @@ export namespace GetUserOrders {
   }
 
   export class Response {
-    success: OrdersList[];
+    data: OrdersList[];
   }
 }
