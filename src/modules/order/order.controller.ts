@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   InternalServerErrorException,
   Post,
   UseGuards,
@@ -12,6 +13,7 @@ import {
   ChangeOrderStatus,
   CreateOrder,
   ChangeOrderDescription,
+  DeleteOrder,
 } from 'src/contracts';
 import { ICreateOrderDto } from 'src/contracts/order/dto/createOrder.dto';
 import { JWTAuthGuard } from 'src/guards/jwt.guard';
@@ -68,6 +70,24 @@ export class OrderController {
         ChangeOrderDescription.Request,
         ChangeOrderDescription.Response
       >(ChangeOrderDescription.topic, dto);
+    } catch (error) {
+      if (error instanceof Error) {
+        throw new InternalServerErrorException(error.message);
+      }
+    }
+  }
+
+  @UseGuards(JWTAuthGuard)
+  @Delete()
+  @UsePipes(new ValidationPipe())
+  async deleteOrder(
+    @Body() dto: DeleteOrder.Request,
+  ): Promise<DeleteOrder.Response> {
+    try {
+      return await this.rmqService.send<
+        DeleteOrder.Request,
+        DeleteOrder.Response
+      >(DeleteOrder.topic, dto);
     } catch (error) {
       if (error instanceof Error) {
         throw new InternalServerErrorException(error.message);
