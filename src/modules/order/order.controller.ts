@@ -2,6 +2,7 @@ import {
   Body,
   Controller,
   Delete,
+  Get,
   InternalServerErrorException,
   Post,
   UseGuards,
@@ -14,6 +15,7 @@ import {
   CreateOrder,
   ChangeOrderDescription,
   DeleteOrder,
+  GetUserOrders,
 } from 'src/contracts';
 import { ICreateOrderDto } from 'src/contracts/order/dto/createOrder.dto';
 import { JWTAuthGuard } from 'src/guards/jwt.guard';
@@ -88,6 +90,21 @@ export class OrderController {
         DeleteOrder.Request,
         DeleteOrder.Response
       >(DeleteOrder.topic, dto);
+    } catch (error) {
+      if (error instanceof Error) {
+        throw new InternalServerErrorException(error.message);
+      }
+    }
+  }
+
+  @UseGuards(JWTAuthGuard)
+  @Get()
+  async getUserOrders(@User() { id }): Promise<GetUserOrders.Response> {
+    try {
+      return await this.rmqService.send<
+        GetUserOrders.Request,
+        GetUserOrders.Response
+      >(GetUserOrders.topic, { user_id: id });
     } catch (error) {
       if (error instanceof Error) {
         throw new InternalServerErrorException(error.message);

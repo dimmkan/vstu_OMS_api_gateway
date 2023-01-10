@@ -62,6 +62,16 @@ let OrderController = class OrderController {
             }
         }
     }
+    async getUserOrders({ id }) {
+        try {
+            return await this.rmqService.send(contracts_1.GetUserOrders.topic, { user_id: id });
+        }
+        catch (error) {
+            if (error instanceof Error) {
+                throw new common_1.InternalServerErrorException(error.message);
+            }
+        }
+    }
 };
 __decorate([
     (0, common_1.UseGuards)(jwt_guard_1.JWTAuthGuard),
@@ -99,6 +109,14 @@ __decorate([
     __metadata("design:paramtypes", [contracts_1.DeleteOrder.Request]),
     __metadata("design:returntype", Promise)
 ], OrderController.prototype, "deleteOrder", null);
+__decorate([
+    (0, common_1.UseGuards)(jwt_guard_1.JWTAuthGuard),
+    (0, common_1.Get)(),
+    __param(0, (0, user_decorator_1.User)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], OrderController.prototype, "getUserOrders", null);
 OrderController = __decorate([
     (0, common_1.Controller)('order'),
     __metadata("design:paramtypes", [nestjs_rmq_1.RMQService])
