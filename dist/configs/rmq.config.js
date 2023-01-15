@@ -17,7 +17,6 @@ const getRMQConfig = () => ({
                 },
             ],
             prefetchCount: 32,
-            serviceName: 'auth-service',
         });
     },
 });
