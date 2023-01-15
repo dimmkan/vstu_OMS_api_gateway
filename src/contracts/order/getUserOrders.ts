@@ -1,3 +1,5 @@
+import { IsNotEmpty, IsNumber } from 'class-validator';
+
 export type OrdersList = {
   id: number;
   date_created: number | null;
@@ -13,6 +15,8 @@ export namespace GetUserOrders {
   export const topic = 'order.getbyuser.query';
 
   export class Request {
+    @IsNumber()
+    @IsNotEmpty()
     user_id: number;
   }
 

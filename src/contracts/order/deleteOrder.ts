@@ -1,10 +1,10 @@
-import { IsString, IsNotEmpty } from 'class-validator';
+import { IsNotEmpty, IsNumber } from 'class-validator';
 
 export namespace DeleteOrder {
   export const topic = 'order.delete.command';
 
   export class Request {
-    @IsString()
+    @IsNumber()
     @IsNotEmpty()
     order_id: string;
   }

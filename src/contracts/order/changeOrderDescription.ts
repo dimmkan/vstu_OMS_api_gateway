@@ -1,10 +1,10 @@
-import { IsString, IsNotEmpty } from 'class-validator';
+import { IsString, IsNotEmpty, IsNumber } from 'class-validator';
 
 export namespace ChangeOrderDescription {
   export const topic = 'order.changedescription.command';
 
   export class Request {
-    @IsString()
+    @IsNumber()
     @IsNotEmpty()
     order_id: string;
 
