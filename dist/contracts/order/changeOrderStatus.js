@@ -18,7 +18,7 @@ var ChangeOrderStatus;
     class Request {
     }
     __decorate([
-        (0, class_validator_1.IsString)(),
+        (0, class_validator_1.IsNumber)(),
         (0, class_validator_1.IsNotEmpty)(),
         __metadata("design:type", String)
     ], Request.prototype, "order_id", void 0);
