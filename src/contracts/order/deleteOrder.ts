@@ -6,7 +6,7 @@ export namespace DeleteOrder {
   export class Request {
     @IsNumber()
     @IsNotEmpty()
-    order_id: string;
+    order_id: number;
   }
 
   export class Response {

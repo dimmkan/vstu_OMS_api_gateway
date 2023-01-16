@@ -6,7 +6,7 @@ export namespace ChangeOrderDescription {
   export class Request {
     @IsNumber()
     @IsNotEmpty()
-    order_id: string;
+    order_id: number;
 
     @IsString()
     @IsNotEmpty()
